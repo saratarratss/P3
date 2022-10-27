@@ -11,7 +11,11 @@ namespace upc {
   void PitchAnalyzer::autocorrelation(const vector<float> &x, vector<float> &r) const {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
-  		/// \TODO Compute the autocorrelation r[l]
+
+  		/// \TODO Compute the autocorrelation r[l] - FET
+      for (unsigned int n = l; n < x.size(); n++) {
+            r[l] += x[n]*x[n+l];
+        }
     }
 
     if (r[0] == 0.0F) //to avoid log() and divide zero 
@@ -26,7 +30,7 @@ namespace upc {
 
     switch (win_type) {
     case HAMMING:
-      /// \TODO Implement the Hamming window
+      /// \TODO Implement the Hamming window - FALTA!
       break;
     case RECT:
     default:
@@ -47,10 +51,11 @@ namespace upc {
   }
 
   bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm) const {
-    /// \TODO Implement a rule to decide whether the sound is voiced or not.
+    /// \TODO Implement a rule to decide whether the sound is voiced or not.  - FALTA!
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
-    return true;
+  
+    return false;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -63,12 +68,7 @@ namespace upc {
 
     vector<float> r(npitch_max);
 
-    //Compute correlation
-    autocorrelation(x, r);
-
-    vector<float>::const_iterator iR = r.begin(), iRMax = iR;
-
-    /// \TODO 
+    /// \TODO - FET 
 	/// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
 	/// Choices to set the minimum value of the lag are:
 	///    - The first negative value of the autocorrelation.
@@ -76,7 +76,17 @@ namespace upc {
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
 
-    unsigned int lag = iRMax - r.begin();
+    //Compute correlation
+    autocorrelation(x, r);
+
+    vector<float>::const_iterator iR = r.begin(), iRMax = iR;
+
+    for(iR = iRMax =  r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++){  //r.begin para empezar por el primer valor de la autocorrelacion
+        if(*iR > * iRMax) {
+          iRMax = iR;             
+      }
+
+    unsigned int lag = iRMax - r.begin(); 
 
     float pot = 10 * log10(r[0]);
 
