@@ -68,13 +68,15 @@ namespace upc {
 
     vector<float> r(npitch_max);
 
-    /// \TODO - FET 
+    /// \TODO  
 	/// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
 	/// Choices to set the minimum value of the lag are:
 	///    - The first negative value of the autocorrelation.
 	///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
+  /// \FET
+  /// Localitzat el maxim de l'autocorrelacio
 
     //Compute correlation
     autocorrelation(x, r);
