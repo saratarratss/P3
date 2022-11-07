@@ -12,11 +12,17 @@ namespace upc {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
 
+<<<<<<< HEAD
   		/// \TODO Compute the autocorrelation r[l] 
       /// \ FET
 
       for (unsigned int n = l; n < x.size(); n++) {
             r[l] += x[n]*x[n+l];
+=======
+  		/// \TODO Compute the autocorrelation r[l] - FET
+      for (unsigned int n = 0; n < x.size()-l; n++) {
+          r[l] += x[n]*x[n+l];
+>>>>>>> 665d17ceeb0d98996178a538c45e67aa8ecbbf67
         }
     }
 
@@ -57,7 +63,11 @@ namespace upc {
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
   
+<<<<<<< HEAD
     if(rmaxnorm > umaxnorm) //LLindar 
+=======
+    if (rmaxnorm > umaxnorm) return false; ///lo pasamos por linea de comando
+>>>>>>> 665d17ceeb0d98996178a538c45e67aa8ecbbf67
     return true;
   }
 
@@ -71,7 +81,11 @@ namespace upc {
 
     vector<float> r(npitch_max);
 
+<<<<<<< HEAD
     /// \TODO 
+=======
+    /// \TODO  
+>>>>>>> 665d17ceeb0d98996178a538c45e67aa8ecbbf67
 	/// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
 	/// Choices to set the minimum value of the lag are:
 	///    - The first negative value of the autocorrelation.
@@ -79,7 +93,12 @@ namespace upc {
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
   /// \FET
+<<<<<<< HEAD
   /// Localitzat el maxim de l'autocorrelació
+=======
+  /// Localitzat el maxim de l'autocorrelacio
+
+>>>>>>> 665d17ceeb0d98996178a538c45e67aa8ecbbf67
     //Compute correlation
     autocorrelation(x, r);
 
@@ -89,7 +108,7 @@ namespace upc {
         if(*iR > * iRMax) {
           iRMax = iR;             
       }
-
+    }
     unsigned int lag = iRMax - r.begin(); 
 
     float pot = 10 * log10(r[0]);
@@ -108,3 +127,4 @@ namespace upc {
       return (float) samplingFreq/(float) lag;
   }
 }
+
