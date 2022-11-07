@@ -12,7 +12,9 @@ namespace upc {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
 
-  		/// \TODO Compute the autocorrelation r[l] - FET
+  		/// \TODO Compute the autocorrelation r[l] 
+      /// \ FET
+
       for (unsigned int n = l; n < x.size(); n++) {
             r[l] += x[n]*x[n+l];
         }
@@ -55,7 +57,8 @@ namespace upc {
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
   
-    return false;
+    if(rmaxnorm > umaxnorm) //LLindar 
+    return true;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -68,14 +71,15 @@ namespace upc {
 
     vector<float> r(npitch_max);
 
-    /// \TODO - FET 
+    /// \TODO 
 	/// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
 	/// Choices to set the minimum value of the lag are:
 	///    - The first negative value of the autocorrelation.
 	///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
-
+  /// \FET
+  /// Localitzat el maxim de l'autocorrelació
     //Compute correlation
     autocorrelation(x, r);
 
