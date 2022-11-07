@@ -13,8 +13,8 @@ namespace upc {
     for (unsigned int l = 0; l < r.size(); ++l) {
 
   		/// \TODO Compute the autocorrelation r[l] - FET
-      for (unsigned int n = l; n < x.size(); n++) {
-            r[l] += x[n]*x[n+l];
+      for (unsigned int n = 0; n < x.size()-l; n++) {
+          r[l] += x[n]*x[n+l];
         }
     }
 
@@ -55,7 +55,8 @@ namespace upc {
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
   
-    return false;
+    if (rmaxnorm > umaxnorm) return false; ///lo pasamos por linea de comando
+    return true;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -87,7 +88,7 @@ namespace upc {
         if(*iR > * iRMax) {
           iRMax = iR;             
       }
-
+    }
     unsigned int lag = iRMax - r.begin(); 
 
     float pot = 10 * log10(r[0]);
@@ -106,3 +107,4 @@ namespace upc {
       return (float) samplingFreq/(float) lag;
   }
 }
+
