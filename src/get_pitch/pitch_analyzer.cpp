@@ -12,7 +12,8 @@ namespace upc {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
 
-  		/// \TODO Compute the autocorrelation r[l] - FET
+  		/// \TODO Compute the autocorrelation r[l] 
+      /// \FET Hem computat la autocorrelació fent ús de la fórmula donada al enunciat: r[l] = sum( x[n] x[n+l] ) desde n=0 a n=N-l
       for (unsigned int n = 0; n < x.size()-l; n++) {
           r[l] += x[n]*x[n+l];
         }
@@ -56,7 +57,7 @@ namespace upc {
     ///   or compute and use other ones.
   
     if (rmaxnorm > umaxnorm) return false; ///lo pasamos por linea de comando
-    return true;
+    return false;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -76,8 +77,9 @@ namespace upc {
 	///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
+
   /// \FET
-  /// Localitzat el maxim de l'autocorrelacio
+  /// Hem localitzat el maxim de l'autocorrelació comparant per cada iteració si el valor actual és més gran que el màxim registrat, enca s que ho sigui, aquest passarà a ser el valor màxim registrat
 
     //Compute correlation
     autocorrelation(x, r);
