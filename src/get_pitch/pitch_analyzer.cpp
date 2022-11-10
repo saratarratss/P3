@@ -31,7 +31,12 @@ namespace upc {
 
     switch (win_type) {
     case HAMMING:
-      /// \TODO Implement the Hamming window - FALTA!
+      /// \TODO Implement the Hamming window
+      /// \FET Hem implementat la Finestra de Hamming
+      for (unsigned int n=0; n < frameLen; n++){
+        window[n] = 0.54-0.46*cos(2*3.1416*n/frameLen);
+      }
+
       break;
     case RECT:
     default:
@@ -56,8 +61,13 @@ namespace upc {
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
   
-    if (rmaxnorm > umaxnorm) return false; ///lo pasamos por linea de comando
-    return false;
+    if ((rmaxnorm > umaxnorm && r1norm > unorm) || pot > umaxpot){
+      return false;
+    }
+
+    else{
+      return true;
+    }
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -79,7 +89,7 @@ namespace upc {
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
 
   /// \FET
-  /// Hem localitzat el maxim de l'autocorrelació comparant per cada iteració si el valor actual és més gran que el màxim registrat, enca s que ho sigui, aquest passarà a ser el valor màxim registrat
+  /// Hem localitzat el maxim de l'autocorrelació comparant per cada iteració si el valor actual és més gran que el màxim registrat, en cas que ho sigui, aquest passarà a ser el valor màxim registrat
 
     //Compute correlation
     autocorrelation(x, r);
