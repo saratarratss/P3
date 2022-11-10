@@ -58,8 +58,8 @@ namespace upc {
 					float min_F0 = MIN_F0,		///< Pitch range should be restricted to be above this value
 					float max_F0 = MAX_F0,		///< Pitch range should be restricted to be below this value
           float umaxnorm_ = 0.4,
-          float unorm_ = 0.95,
-          float umaxpot_ = -15
+          float unorm_ = 0.85,
+          float umaxpot_ = -5
 
 				 )
 	{
