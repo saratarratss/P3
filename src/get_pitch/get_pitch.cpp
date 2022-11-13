@@ -50,6 +50,9 @@ int main(int argc, const char *argv[]) {
 	std::string input_wav = args["<input-wav>"].asString();
 	std::string output_txt = args["<output-txt>"].asString();
   float umaxnorm = std::stof(args["--umaxnorm"].asString());
+  float unorm =std::stof(args["--unorm"].asString()); //new I
+  float umaxpot =std::stof(args["--umaxpot"].asString());// new I
+  
 
   // Read input sound file
   unsigned int rate;
@@ -63,7 +66,7 @@ int main(int argc, const char *argv[]) {
   int n_shift = rate * FRAME_SHIFT;
 
   // Define analyzer
-  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500, umaxnorm);
+  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500, umaxnorm,unorm,umaxpot);//new
 
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
@@ -72,6 +75,14 @@ int main(int argc, const char *argv[]) {
   // Iterate for each frame and save values in f0 vector
   vector<float>::iterator iX;
   vector<float> f0;
+  /// \Revisar!
+  float alfa = 0.005;
+  for (iX = x.begin(); iX  < x.end(); iX++ ) {
+    if (*iX < alfa && *iX > -alfa){ 
+      *iX = 0;
+    }
+
+  }
   for (iX = x.begin(); iX + n_len < x.end(); iX = iX + n_shift) {
     float f = analyzer(iX, iX + n_len);
     f0.push_back(f);
