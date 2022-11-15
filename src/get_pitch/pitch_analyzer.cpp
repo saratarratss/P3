@@ -63,11 +63,11 @@ namespace upc {
     ///   or compute and use other ones.
     /// \FET Hem determinat els llindars pels quals decidirem si es veu o no-veu.
     bool unvoiced = true;
-    if (rmaxnorm > umaxnorm || r1norm>0.95){
+    if (rmaxnorm > umaxnorm || r1norm>0.97){
       unvoiced = false;
     }
 
-    if (pot<-15){
+    if (pot<-20 ){
       unvoiced = true;
     }
 
