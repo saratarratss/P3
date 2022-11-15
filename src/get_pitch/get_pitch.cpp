@@ -27,11 +27,7 @@ Usage:
 Options:
     -h, --help  Show this screen
     --version   Show the version of the project
-<<<<<<< HEAD
-    -m REAL, --umaxnomr=REAL  Umbral del máximo de la autocorrelacion [default: 0.5]
-=======
     -m REAL, --umaxnorm=REAL  Umbral del máximo de la autocorrelación [default: 0.5]
->>>>>>> 665d17ceeb0d98996178a538c45e67aa8ecbbf67
 
 
 Arguments:
