@@ -78,13 +78,8 @@ int main(int argc, const char *argv[]) {
 
 	std::string input_wav = args["<input-wav>"].asString();
 	std::string output_txt = args["<output-txt>"].asString();
-<<<<<<< HEAD
-  float umaxnorm = std::stof(args["--umaxnorm"]);
-  
-=======
   float umaxnorm = std::stof(args["--umaxnorm"].asString());
 
->>>>>>> 665d17ceeb0d98996178a538c45e67aa8ecbbf67
   // Read input sound file
   unsigned int rate;
   vector<float> x;
@@ -97,11 +92,7 @@ int main(int argc, const char *argv[]) {
   int n_shift = rate * FRAME_SHIFT;
 
   // Define analyzer
-<<<<<<< HEAD
-  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500,umaxnorm);
-=======
   PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500, umaxnorm);
->>>>>>> 665d17ceeb0d98996178a538c45e67aa8ecbbf67
 
 
   /// \TODO
