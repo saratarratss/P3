@@ -44,6 +44,7 @@ namespace upc {
     }
   }
 
+
   void PitchAnalyzer::set_f0_range(float min_F0, float max_F0) {
     npitch_min = (unsigned int) samplingFreq/max_F0;
     if (npitch_min < 2)
@@ -60,14 +61,17 @@ namespace upc {
     /// \TODO Implement a rule to decide whether the sound is voiced or not.  - FALTA!
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
-  
-    if ((rmaxnorm > umaxnorm && r1norm > unorm) || pot > umaxpot){
-      return false;
+    /// \FET Hem determinat els llindars pels quals decidirem si es veu o no-veu.
+    bool unvoiced = true;
+    if (rmaxnorm > umaxnorm || r1norm>0.95){
+      unvoiced = false;
     }
 
-    else{
-      return true;
+    if (pot<-15){
+      unvoiced = true;
     }
+
+    return unvoiced;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
