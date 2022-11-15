@@ -31,7 +31,7 @@ namespace upc {
       npitch_min, ///< minimum value of pitch period, in samples
       npitch_max; ///< maximum value of pitch period, in samples
     
-    float umaxnorm;
+    float umaxnorm;   //umbral màxima autocorrelació normalitzada
  
 	///
 	/// Computes correlation from lag=0 to r.size()
@@ -49,13 +49,14 @@ namespace upc {
     bool unvoiced(float pot, float r1norm, float rmaxnorm) const;
 
 
+
   public:
     PitchAnalyzer(	unsigned int fLen,			///< Frame length in samples
 					unsigned int sFreq,			///< Sampling rate in Hertzs
 					Window w=PitchAnalyzer::HAMMING,	///< Window type
 					float min_F0 = MIN_F0,		///< Pitch range should be restricted to be above this value
 					float max_F0 = MAX_F0,		///< Pitch range should be restricted to be below this value
-          float umaxnorm_ = 0 
+          float umaxnorm_ = 0.4
 				 )
 	{
       frameLen = fLen;

@@ -12,7 +12,8 @@ namespace upc {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
 
-  		/// \TODO Compute the autocorrelation r[l] - FET
+  		/// \TODO Compute the autocorrelation r[l] 
+      /// \FET Hem computat la autocorrelació fent ús de la fórmula donada al enunciat: r[l] = sum( x[n] x[n+l] ) desde n=0 a n=N-l
       for (unsigned int n = 0; n < x.size()-l; n++) {
           r[l] += x[n]*x[n+l];
         }
@@ -30,13 +31,19 @@ namespace upc {
 
     switch (win_type) {
     case HAMMING:
-      /// \TODO Implement the Hamming window - FALTA!
+      /// \TODO Implement the Hamming window
+      /// \FET Hem implementat la Finestra de Hamming
+      for (unsigned int n=0; n < frameLen; n++){
+        window[n] = 0.54-0.46*cos(2*3.1416*n/frameLen);
+      }
+
       break;
     case RECT:
     default:
       window.assign(frameLen, 1);
     }
   }
+
 
   void PitchAnalyzer::set_f0_range(float min_F0, float max_F0) {
     npitch_min = (unsigned int) samplingFreq/max_F0;
@@ -54,9 +61,17 @@ namespace upc {
     /// \TODO Implement a rule to decide whether the sound is voiced or not.  - FALTA!
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
-  
-    if (rmaxnorm > umaxnorm) return false; ///lo pasamos por linea de comando
-    return true;
+    /// \FET Hem determinat els llindars pels quals decidirem si es veu o no-veu.
+    bool unvoiced = true;
+    if (rmaxnorm > umaxnorm || r1norm>0.95){
+      unvoiced = false;
+    }
+
+    if (pot<-15){
+      unvoiced = true;
+    }
+
+    return unvoiced;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -76,8 +91,9 @@ namespace upc {
 	///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
+
   /// \FET
-  /// Localitzat el maxim de l'autocorrelacio
+  /// Hem localitzat el maxim de l'autocorrelació comparant per cada iteració si el valor actual és més gran que el màxim registrat, en cas que ho sigui, aquest passarà a ser el valor màxim registrat
 
     //Compute correlation
     autocorrelation(x, r);
