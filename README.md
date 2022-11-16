@@ -176,7 +176,14 @@ Ejercicios de ampliación
 			}
 			pitches = sorted;
 		}
+		
 	
+*Finalment hem jugat amb la longitud de la finestra del filtre, per a veure els efectes que provocava en la taxes d'error i el score TOTAL*.
+ 
+<img width="1150" alt="Diferents L del filtre" src="https://github.com/saratarratss/P3/blob/Estevez-Mesquida-Tarrats/PAV.png">
+
+*Finalment veiem que a mesura que augmentem la grandària de la finestra, empitjora el *score* TOTAL significativament i la *MSE of fini errors* en menor mesura, també observem que el percentatge de *Gross voiced errors* millora per a L=4 i 5 i torna a caure per a L=6 en endavant*.
+ 
 Evaluación *ciega* del estimador
 -------------------------------
 
