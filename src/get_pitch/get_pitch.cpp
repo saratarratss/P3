@@ -51,15 +51,17 @@ void median_filter(vector<float> &pitches){
     sorting[0] = pitches[i - 1];
     sorting[1] = pitches[i];
     sorting[2] = pitches[i + 1];
-    sorting[3] = pitches[i + 2];
-    sorting[4] = pitches[i + 3];
-    sorting[5] = pitches[i + 4];
+    /*Aumentamos la dimensión de la ventana para comprobar su efecto*/
+    //Se ha probado con cada uno
+    //sorting[3] = pitches[i + 2]; //l=4
+    //sorting[4] = pitches[i + 3];//L=5
+    //sorting[5] = pitches[i + 4];//L=6
     
     
     
-    for (int j = 0; j < 5; j++)
+    for (int j = 0; j < 2; j++)
     {
-      for (int k = 0; k < 5; k++)
+      for (int k = 0; k < 2; k++)
       {
         if (sorting[k] > sorting[k + 1])
         {
