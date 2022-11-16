@@ -15,17 +15,19 @@ Ejercicios básicos
 
    * Complete el cálculo de la autocorrelación e inserte a continuación el código correspondiente.
       
-      for (unsigned int l = 0; l < r.size(); ++l) {
-        /// \TODO Compute the autocorrelation r[l]
-        /// \FET Hem computat la autocorrelació fent ús de la fórmula donada al enunciat: r[l] = sum( x[n] x[n+l] ) desde n=0 a n=N-l
-        for (unsigned int n = 0; n < x.size()-l; n++) {
-            r[l] += x[n]*x[n+l];
-          }
-      }
-
-      if (r[0] == 0.0F) //to avoid log() and divide zero 
-        r[0] = 1e-10;
-
+	<pre><code>  for (unsigned int l = 0; l < r.size(); ++l) {
+		/// \TODO Compute the autocorrelation r[l]
+	      	/// \FET Hem computat la autocorrelació fent ús de la fórmula donada al enunciat: 
+	      	/// r[l] = sum( x[n] x[n+l] ) desde n=0 a n=N-l
+		for (unsigned int n = 0; n < x.size()-l; n++) {
+			r[l] += x[n]*x[n+l];
+		}
+	}
+	
+	if (r[0] == 0.0F) //to avoid log() and divide zero 
+		r[0] = 1e-10;
+      </code></pre>
+      
    * Inserte una gŕafica donde, en un *subplot*, se vea con claridad la señal temporal de un segmento de
      unos 30 ms de un fonema sonoro y su periodo de pitch; y, en otro *subplot*, se vea con claridad la
 	   autocorrelación de la señal y la posición del primer máximo secundario.
@@ -40,24 +42,25 @@ Ejercicios básicos
    * Determine el mejor candidato para el periodo de pitch localizando el primer máximo secundario de la
      autocorrelación. Inserte a continuación el código correspondiente.
 
-      vector<float>::const_iterator iR = r.begin(), iRMax = iR;
+	<pre><code>  vector<float>::const_iterator iR = r.begin(), iRMax = iR;
 
-      for(iR = iRMax =  r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++){  //r.begin para empezar por el primer valor de la autocorrelacion
-          if(*iR > * iRMax) {
-            iRMax = iR;             
-        }
-      }
-
+	for(iR = iRMax =  r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++){  
+      		//r.begin para empezar por el primer valor de la autocorrelacion
+		if(*iR > * iRMax) {
+			iRMax = iR;
+		}
+	}</pre></code>
+	
    * Implemente la regla de decisión sonoro o sordo e inserte el código correspondiente.
 
-      bool unvoiced = true;
-      if (rmaxnorm > umaxnorm || r1norm>0.97){
-        unvoiced = false;
-      }
-      if (pot<-20 ){
-        unvoiced = true;
-      }
-      return unvoiced;
+	<pre><code>  bool unvoiced = true;
+	if (rmaxnorm > umaxnorm || r1norm>0.97){
+		unvoiced = false;
+	}
+	if (pot<-20 ){
+		unvoiced = true;
+	}
+	return unvoiced;</pre></code>
 
    * Puede serle útil seguir las instrucciones contenidas en el documento adjunto `código.pdf`.
 
@@ -128,45 +131,6 @@ Ejercicios de ampliación
     gobiernan la decisión sonoro/sordo.
   * Cualquier otra técnica que se le pueda ocurrir o encuentre en la literatura.
 
-    *Hem utilitzat dues tècniques diferents per optimitzar les característiques del sistema d'estimació de pitch*
-
-    *La tècnica de preprocessat que hem utilitzat és el center clipping.Amb aquesta tecnica el que fem es retallar el senyal en amplitud per poder així a l'hora de introduïr distorsió no lineal augmentarà la intensitat dels harmònics d'ordre elevat. El codi és el següent:*
-
-    float alfa=0.006;
-    for (iX = x.begin(); iX  < x.end(); iX++ ) {
-      if (*iX < alfa && *iX > -alfa){ 
-        *iX = 0;
-      }
-    }
-
-    *La tècnica de postprocessat que hem utilitzat és el filtre de mediana. Aquesta tècnica consisteix en calcular el valor mitjà amb una finestra tancada a cada instant de temps per aconseguir eliminar soroll. El còdi és el següent:*
-
-    void median_filter(vector<float> &pitches){
-      vector<float> sorted = pitches;
-      vector<float> sorting = pitches;
-      float a;
-      for (unsigned int i = 1; i < pitches.size() - 1; i++)
-      {
-        sorting[0] = pitches[i - 1];
-        sorting[1] = pitches[i];
-        sorting[2] = pitches[i + 1];
-        for (int j = 0; j < 2; j++)
-        {
-          for (int k = 0; k < 2; k++)
-          {
-            if (sorting[k] > sorting[k + 1])
-            {
-              a = sorting[k + 1];
-              sorting[k + 1] = sorting[k];
-              sorting[k] = a;
-            }
-          }
-        }
-        sorted[i] = sorting[1];
-      }
-      pitches = sorted;
-    }
-    
   Encontrará más información acerca de estas técnicas en las [Transparencias del Curso](https://atenea.upc.edu/pluginfile.php/2908770/mod_resource/content/3/2b_PS%20Techniques.pdf)
   y en [Spoken Language Processing](https://discovery.upc.edu/iii/encore/record/C__Rb1233593?lang=cat).
   También encontrará más información en los anexos del enunciado de esta práctica.
@@ -178,7 +142,41 @@ Ejercicios de ampliación
   por implementar el filtro de mediana, se valorará el análisis de los resultados obtenidos en función de
   la longitud del filtro.
    
+    *Hem utilitzat dues tècniques diferents per optimitzar les característiques del sistema d'estimació de pitch*
 
+    *La tècnica de preprocessat que hem utilitzat és el center clipping.Amb aquesta tecnica el que fem es retallar el senyal en amplitud per poder així a l'hora de introduïr distorsió no lineal augmentarà la intensitat dels harmònics d'ordre elevat. El codi és el següent:*
+
+	<pre><code>  float alfa=0.006;
+	for (iX = x.begin(); iX  < x.end(); iX++ ) {
+		if (*iX < alfa && *iX > -alfa){ 
+			*iX = 0;
+		}
+	} </code></pre><p>
+	*La tècnica de postprocessat que hem utilitzat és el filtre de mediana. Aquesta tècnica consisteix en calcular el valor mitjà amb una finestra tancada a cada instant de temps per aconseguir eliminar soroll. El còdi és el següent:*
+
+    
+		void median_filter(vector<float> &pitches){
+			vector<float> sorted = pitches;
+			vector<float> sorting = pitches;
+			float a;
+			for (unsigned int i = 1; i < pitches.size() - 1; i++){
+				sorting[0] = pitches[i - 1];
+				sorting[1] = pitches[i];
+				sorting[2] = pitches[i + 1];
+				for (int j = 0; j < 2; j++){
+					for (int k = 0; k < 2; k++){
+						if (sorting[k] > sorting[k + 1]){
+							a = sorting[k + 1];
+							sorting[k + 1] = sorting[k];
+							sorting[k] = a;
+						}
+					}
+				}
+				sorted[i] = sorting[1];
+			}
+			pitches = sorted;
+		}
+	
 Evaluación *ciega* del estimador
 -------------------------------
 
