@@ -43,8 +43,7 @@ void median_filter(vector<float> &pitches){
   vector<float> sorted = pitches;
   vector<float> sorting = pitches;
   float a;
- printf("\nholaaaaaaaaaaaa\n%i\n",pitches.size());
-
+ 
   for (unsigned int i = 1; i < pitches.size() - 1; i++)
   {
    
