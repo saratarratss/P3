@@ -144,7 +144,7 @@ Ejercicios de ampliación
    
     *Hem utilitzat dues tècniques diferents per optimitzar les característiques del sistema d'estimació de pitch*
 
-    *La tècnica de preprocessat que hem utilitzat és el center clipping.Amb aquesta tecnica el que fem es retallar el senyal en amplitud per poder així a l'hora de introduïr distorsió no lineal augmentarà la intensitat dels harmònics d'ordre elevat. El codi és el següent:*
+    *La tècnica de preprocessat que hem utilitzat és el center clipping. Amb aquesta tecnica el que fem es retallar el senyal en amplitud per poder així a l'hora de introduïr distorsió no lineal augmentarà la intensitat dels harmònics d'ordre elevat. El codi és el següent:*
 
 	<pre><code>  float alfa=0.006;
 	for (iX = x.begin(); iX  < x.end(); iX++ ) {
@@ -178,47 +178,41 @@ Ejercicios de ampliación
 		}
 		
 	
-  *Finalment hem jugat amb la longitud de la finestra del filtre, per a veure els efectes que provocava en la taxes d'error i el score TOTAL*.
+  *Finalment hem jugat amb la longitud de la finestra del filtre per poder veure els efectes que provocava en la taxes d'error i el score TOTAL*.
  
 	<img width="1150" alt="Diferents L del filtre" src="https://github.com/saratarratss/P3/blob/Estevez-Mesquida-Tarrats/PAV.png">
 
-  *Veiem que a mesura que augmentem la grandària de la finestra, empitjora el *score* TOTAL significativament i la *MSE of fini errors* en menor mesura, també   observem que el percentatge de *Gross voiced errors* millora per a L=4 i 5 i torna a caure per a L=6 en endavant*.
-  <pre><code> 
-  void median_filter(vector<float> &pitches){
-  vector<float> sorted = pitches;
-  vector<float> sorting = pitches;
-  float a;
- 
-  for (unsigned int i = 1; i < pitches.size() - 1; i++)
-  {
-   
-    sorting[0] = pitches[i - 1];
-    sorting[1] = pitches[i];
-    sorting[2] = pitches[i + 1];
-    /*Aumentamos la dimensión de la ventana para comprobar su efecto*/
-    //Se ha probado con cada uno
-    sorting[3] = pitches[i + 2]; //l=4
-    sorting[4] = pitches[i + 3];//L=5
-    sorting[5] = pitches[i + 4];//L=6
-    sorting[6] = pitches[i + 5];//L=7
-    
-    
-    for (int j = 0; j < 6; j++)
-    {
-      for (int k = 0; k < 6; k++)
-      {
-        if (sorting[k] > sorting[k + 1])
-        {
-          a = sorting[k + 1];
-          sorting[k + 1] = sorting[k];
-          sorting[k] = a;
-        }
-      }
-    }
-    sorted[i] = sorting[1];
-  }
-  pitches = sorted;
-} </code></pre><p>
+  *Veiem que a mesura que augmentem la grandària de la finestra, empitjora el *score* TOTAL significativament i la *MSE of fine errors* en menor mesura. També   observem que el percentatge de *Gross voiced errors* millora per a L=4 i 5 i torna a caure per a L=6 en endavant*.
+  
+	<pre><code>  void median_filter(vector<float> &pitches){
+		vector<float> sorted = pitches;
+		vector<float> sorting = pitches;
+		float a;
+
+		for (unsigned int i = 1; i < pitches.size() - 1; i++){
+			sorting[0] = pitches[i - 1];
+			sorting[1] = pitches[i];
+			sorting[2] = pitches[i + 1];
+			/*Aumentamos la dimensión de la ventana para comprobar su efecto*/
+			//Se ha probado con cada uno
+			sorting[3] = pitches[i + 2]; //l=4
+			sorting[4] = pitches[i + 3];//L=5
+			sorting[5] = pitches[i + 4];//L=6
+			sorting[6] = pitches[i + 5];//L=7
+
+			for (int j = 0; j < 6; j++){
+				for (int k = 0; k < 6; k++){
+					if (sorting[k] > sorting[k + 1]){
+						a = sorting[k + 1];
+						sorting[k + 1] = sorting[k];
+						sorting[k] = a;
+					}
+				}
+			}
+			sorted[i] = sorting[1];
+		}
+		pitches = sorted;
+	}</code></pre>
  
 Evaluación *ciega* del estimador
 -------------------------------
