@@ -147,7 +147,8 @@ Ejercicios de ampliación
     *La tècnica de preprocessat que hem utilitzat és el center clipping. Amb aquesta tècnica el que fem es retallar el senyal per aquelles amplituds que no arribin a un threshold determinat, per poder així a l'hora de introduïr distorsió no lineal, augmentar la intensitat dels harmònics d'ordre elevat.*
     
     *Aquest procés produeix el següent efecte en la senyal*
-    <img width="500" alt="Summary" src="https://github.com/saratarratss/P3/blob/Estevez-Mesquida-Tarrats/center-clipping3_2.jpg">
+    
+    <img width="300" alt="Summary" src="https://github.com/saratarratss/P3/blob/Estevez-Mesquida-Tarrats/center-clipping3_2.jpg">
     
     *El codi és el següent:*
 
