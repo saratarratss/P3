@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Put here the program (maybe with path)
 GETF0="get_pitch"
 
